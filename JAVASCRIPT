@@ -1,0 +1,50 @@
+let startTime;
+let updatedTime;
+let difference;
+let tInterval;
+let running = false;
+
+const startButton = document.getElementById('start');
+const stopButton = document.getElementById('stop');
+const resetButton = document.getElementById('reset');
+const minutes = document.getElementById('minutes');
+const seconds = document.getElementById('seconds');
+const milliseconds = document.getElementById('milliseconds');
+
+startButton.addEventListener('click', startTimer);
+stopButton.addEventListener('click', stopTimer);
+resetButton.addEventListener('click', resetTimer);
+
+function startTimer() {
+    if (!running) {
+        startTime = new Date().getTime();
+        tInterval = setInterval(updateTimer, 10);
+        running = true;
+    }
+}
+
+function stopTimer() {
+    clearInterval(tInterval);
+    running = false;
+}
+
+function resetTimer() {
+    clearInterval(tInterval);
+    running = false;
+    minutes.innerHTML = '00';
+    seconds.innerHTML = '00';
+    milliseconds.innerHTML = '00';
+}
+
+function updateTimer() {
+    updatedTime = new Date().getTime();
+    difference = updatedTime - startTime;
+
+    let m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    let s = Math.floor((difference % (1000 * 60)) / 1000);
+    let ms = Math.floor((difference % 1000) / 10);
+
+    minutes.innerHTML = m < 10 ? '0' + m : m;
+    seconds.innerHTML = s < 10 ? '0' + s : s;
+    milliseconds.innerHTML = ms < 10 ? '0' + ms : ms;
+}
